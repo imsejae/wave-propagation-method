@@ -1,0 +1,69 @@
+# compiled object modules
+*.o
+*.pyc
+
+# executables
+*.exe
+
+# output directories
+output*
+mesh_output*
+
+# tags files
+tags
+
+# image files
+*.jpeg
+*.jpg
+*.png
+*.eps
+*.gif
+*.pdf
+
+# files that text editors produce:
+*.swp
+.ycm_extra_conf.py
+
+# silly Mac files
+.DS_Store
+
+#files produced from file copying
+._*
+
+# bash files
+setenv.bash
+setenv.csh
+
+# emacs trash files
+*~
+
+# HPCC batch request files
+*.qsub
+*.sb*
+*.out
+
+# c++ testing
+CMakeLists.txt
+build
+
+# data files
+*.dat
+*.mat
+
+# tex files
+*.aux
+*.log
+*.pdf
+*.synctex.gz
+*.tex
+
+#HPC files
+core.*
+*slurm*
+serial_*
+openmp_*
+mpi_*
+hybrid_*
+maxcores*
+tau_*
+gpu_*

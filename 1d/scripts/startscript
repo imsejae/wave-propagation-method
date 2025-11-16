@@ -1,0 +1,15 @@
+#!/bin/sh
+
+outputdir="$1";
+
+# create output directory if it does not exist
+if test ! -d $outputdir;
+  then mkdir $outputdir;
+fi
+
+# put files in the output directory that
+# we use it to select what modules are used
+if test -f Makefile; then
+   morefiles="Makefile $morefiles";
+fi
+cp $morefiles parameters.ini $outputdir;
