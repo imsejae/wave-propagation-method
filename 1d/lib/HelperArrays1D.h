@@ -22,6 +22,9 @@ class HelperArrays1D
     // return smax
     const double get_smax() const {return smax; };
 
+    // set smax
+    void set_smax(const double smax_in) { smax = smax_in; };
+
   private:
     bool is_initialized;
     int order;
@@ -30,8 +33,10 @@ class HelperArrays1D
     double smax;
 
   public:
+    DblArray* im1;
+    DblArray* iz0;
+    DblArray* ip1;
     DblArray* s;
-    DblArray* alpha;
     DblArray* wave;
     DblArray* apdq;
     DblArray* amdq;

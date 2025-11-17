@@ -1,6 +1,7 @@
 # Makefile
 COMMON_LIB = ../../../lib
 LIB = ../../lib
+APPLIB = ../lib
 
 CXX = g++
 
@@ -8,6 +9,7 @@ LINK = time $(CXX) \
 -O3 \
 -I$(COMMON_LIB) \
 -I$(LIB) \
+-I$(APPLIB) \
 -std=c++14 \
 -Wall \
 -Wno-unknown-pragmas \
@@ -23,6 +25,7 @@ COMPILE = $(LINK) -c $(INCLUDE_LIBS)
 OBJECTS = \
 main.o \
 initial_condition.o \
+$(APPLIB)/AppSolver.o \
 $(COMMON_LIB)/DogArrays.o \
 $(COMMON_LIB)/setup.o \
 $(COMMON_LIB)/assert.o \
@@ -39,6 +42,7 @@ $(LIB)/single_time_step.o \
 SOURCES = \
 main.cpp \
 initial_condition.cpp \
+$(APPLIB)/AppSolver.cpp \
 $(COMMON_LIB)/DogArrays.cpp \
 $(COMMON_LIB)/setup.cpp \
 $(COMMON_LIB)/assert.cpp \

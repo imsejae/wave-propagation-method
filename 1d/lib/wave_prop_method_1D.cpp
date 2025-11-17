@@ -8,6 +8,7 @@
 #include "waveprop1D.h"
 #include "HelperArrays1D.h"
 #include "dog_math.h"
+#include "dog_str.h"
 #include <cmath>
  
  // -------------------------------------------------------------------------- //
@@ -37,6 +38,16 @@ int wave_prop_method_1D(int argc, char* argv[])
   // create helper arrays
   HelperArrays1D h1D;
   h1D.init(order,Nx,Neqn);
+
+  if (dog_str::str_eq(params1D.get_left_bc(),"extrapolation"))
+    { h1D.im1->fetch(1) = 1; }
+  else if (dog_str::str_eq(params1D.get_left_bc(),"periodic"))
+    { h1D.im1->fetch(1) = Nx; }
+
+  if (dog_str::str_eq(params1D.get_right_bc(),"extrapolation"))
+    { h1D.iz0->fetch(Nx+1) = Nx; h1D.ip1->fetch(Nx+1) = Nx; }
+  else if (dog_str::str_eq(params1D.get_right_bc(),"periodic"))
+    { h1D.iz0->fetch(Nx+1) = 1; h1D.ip1->fetch(Nx+1) = 2; }
 
   // create mesh
   DblArray x(Nx);
@@ -110,24 +121,15 @@ int wave_prop_method_1D(int argc, char* argv[])
             {
               // take time step
               waveprop1D::single_time_step(params1D,
-                                          h1D,
-                                          time,
-                                          dt,
-                                          x,
-                                          qtmp);
+                                           h1D,
+                                           time,
+                                           dt,
+                                           x,
+                                           qtmp);
               smax = dog_math::Max(h1D.get_smax(),1.0e-12);
               cfl_actual = smax*dt/dx;
 
-              // report time step details
-              if (params1D.get_verbosity()==1)
-                {
-                  printf("WAVE-PROP-1D:  Step %5d"
-                        "   CFL =%6.3f"
-                        "   dt =%11.3e"
-                        "   t =%11.3e\n",
-                        step,cfl_actual,dt,time);
-                }
-
+              // check if we can accept this time step
               if (cfl_actual <= cfl_max)
                 { 
                   accept = true;
@@ -149,8 +151,20 @@ int wave_prop_method_1D(int argc, char* argv[])
                       { qtmp.fetch(i,m) = qsoln.get(i,m); }
                 }
 
+              // report time step details
+              if (params1D.get_verbosity()==1)
+                {
+                  printf("WAVE-PROP-1D:  Step %5d"
+                        "   CFL =%6.3f"
+                        "   dt =%11.3e"
+                        "   t =%11.3e\n",
+                        step,cfl_actual,dt,time);
+                }
+
               // compute new time step based on new smax
+              double dt_old = dt;
               dt = dog_math::Min(dx*cfl/smax, end_time-time);
+              if (fabs(dt)<1.0e-14) { dt = dt_old; }
             }
 
           if  (step==max_time_steps_per_frame)

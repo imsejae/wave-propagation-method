@@ -1,5 +1,5 @@
-#ifndef _MICMAC_1D_H_
-#define _MICMAC_1D_H_
+#ifndef _WAVEPROP_1D_H_
+#define _WAVEPROP_1D_H_
 
 class Params1D;
 class IntArray;
