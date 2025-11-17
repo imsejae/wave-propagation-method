@@ -134,7 +134,10 @@ void Params1D::check_parameters()
     { eprintf("\n final_time must be > 0.0: final_time = %22.15e.\n",final_time); }
 
   if (cfl<=0.0)
-    { eprintf("\n cfl must be > 0.0: cfl = %22.15e.\n",cfl); }
+    { eprintf("\n cfl must be > 0.00: cfl = %22.15e.\n",cfl); }
+
+  if (cfl>=0.99)
+    { eprintf("\n cfl must be < 0.99: cfl = %22.15e.\n",cfl); }
 
   if (order<1)
     { eprintf("\n order must be at least 1: order = %i.\n",order); }

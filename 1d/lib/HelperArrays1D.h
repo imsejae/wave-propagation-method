@@ -19,13 +19,23 @@ class HelperArrays1D
     // Initializer function
     void init(const int order_in, const int Nx_in, const int Neqn_in);
 
+    // return smax
+    const double get_smax() const {return smax; };
+
   private:
     bool is_initialized;
     int order;
     int Nx;
     int Neqn;
+    double smax;
 
   public:
+    DblArray* s;
+    DblArray* alpha;
+    DblArray* wave;
+    DblArray* apdq;
+    DblArray* amdq;
+    DblArray* Ftilde;
 };
 
 #endif

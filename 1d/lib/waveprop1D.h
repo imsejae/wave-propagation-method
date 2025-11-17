@@ -22,6 +22,7 @@ namespace waveprop1D
   void single_time_step(const Params1D& params1D,
                         HelperArrays1D& helper,
                         const double time,
+                        const double dt,
                         const DblArray& x,
                         DblArray& qsoln);
 }
