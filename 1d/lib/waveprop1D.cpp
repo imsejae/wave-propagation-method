@@ -10,6 +10,14 @@
 #include <cmath>
 
 // -------------------------------------------------------------------------- //
+double waveprop1D::limiter_function(const double theta)
+{
+  // van Leer limiter function
+  return ((theta+fabs(theta))/(1.0+fabs(theta)));
+}
+// -------------------------------------------------------------------------- //
+
+// -------------------------------------------------------------------------- //
 void waveprop1D::create_mesh(DblArray& x,
                              Params1D& params1D)
 {

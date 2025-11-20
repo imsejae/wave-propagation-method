@@ -25,5 +25,7 @@ namespace waveprop1D
                         const double dt,
                         const DblArray& x,
                         DblArray& qsoln);
+
+  double limiter_function(const double theta);
 }
 #endif

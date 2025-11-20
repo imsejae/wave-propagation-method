@@ -48,6 +48,5 @@ def parse_ini_parameters(output_directory,
     ini_params['xhigh']                    = grab_float  (config['Params1D']['xhigh']);
     ini_params['left_bc']                  = grab_string (config['Params1D']['left_bc']);
     ini_params['right_bc']                 = grab_string (config['Params1D']['right_bc']);
-    ini_params['exact_solution']           = grab_int    (config['Params1D']['exact_solution']);
 
     return ini_params

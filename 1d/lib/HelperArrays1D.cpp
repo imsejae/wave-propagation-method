@@ -23,6 +23,7 @@ HelperArrays1D::HelperArrays1D()
   apdq            = NULL;
   amdq            = NULL;
   Ftilde          = NULL;
+  dotwave         = NULL;
 }
 // -------------------------------------------------------------------------- //
 
@@ -42,6 +43,7 @@ HelperArrays1D::~HelperArrays1D()
   delete apdq;
   delete amdq;
   delete Ftilde;
+  delete dotwave;
   im1             = NULL;
   iz0             = NULL;
   ip1             = NULL;
@@ -50,6 +52,7 @@ HelperArrays1D::~HelperArrays1D()
   apdq            = NULL;
   amdq            = NULL;
   Ftilde          = NULL;
+  dotwave         = NULL;
 
   is_initialized  = false;
 }
@@ -83,11 +86,12 @@ void HelperArrays1D::init(const int order_in, const int Nx_in, const int Neqn_in
       ip1->fetch(i) = i+1;
     }
 
-  s      = new DblArray(Nx+1,Neqn);
-  wave   = new DblArray(Nx+1,Neqn,Neqn);
-  apdq   = new DblArray(Nx+1,Neqn);
-  amdq   = new DblArray(Nx+1,Neqn);
-  Ftilde = new DblArray(Nx+1,Neqn);
+  s       = new DblArray(Nx+1,Neqn);
+  wave    = new DblArray(Nx+1,Neqn,Neqn);
+  apdq    = new DblArray(Nx+1,Neqn);
+  amdq    = new DblArray(Nx+1,Neqn);
+  Ftilde  = new DblArray(Nx+1,Neqn);
+  dotwave = new DblArray(Nx+1,Neqn);
 
   is_initialized = true;
 }

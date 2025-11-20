@@ -36,6 +36,8 @@ class Params1D
     const double  get_dx()                      const { return dx;                      };
     const int     get_Neqn()                    const { return Neqn;                    };
     const int     get_max_number_of_time_steps()const { return max_number_of_time_steps;};
+    const bool    get_use_limiter()             const { return use_limiter;             };
+    const bool    get_use_entropy_fix()         const { return use_entropy_fix;         };
 
   private:
     // parameters
@@ -53,6 +55,8 @@ class Params1D
     char*   right_bc;
     int     Neqn;
     int     max_number_of_time_steps;
+    bool    use_limiter;
+    bool    use_entropy_fix;
     // derived parameters
     double dx;
 };

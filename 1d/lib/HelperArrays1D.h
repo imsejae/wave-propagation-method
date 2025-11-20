@@ -41,6 +41,7 @@ class HelperArrays1D
     DblArray* apdq;
     DblArray* amdq;
     DblArray* Ftilde;
+    DblArray* dotwave;
 };
 
 #endif

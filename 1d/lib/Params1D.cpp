@@ -13,20 +13,22 @@
 // Constructor
 Params1D::Params1D()
 {
-  is_initialized  =  false;
-  verbosity       =  0;
-  outputdir       =  NULL;
-  numframes       =  -1;
-  final_time      =  -1.0;
-  cfl             =  -1.0;
-  order           =  -1;
-  Nx              =  -1;
-  xlow            =  -1.0;
-  xhigh           =  -2.0;
-  left_bc         =  NULL;
-  right_bc        =  NULL;
-  Neqn            =  -1;
+  is_initialized   =  false;
+  verbosity        =  0;
+  outputdir        =  NULL;
+  numframes        =  -1;
+  final_time       =  -1.0;
+  cfl              =  -1.0;
+  order            =  -1;
+  Nx               =  -1;
+  xlow             =  -1.0;
+  xhigh            =  -2.0;
+  left_bc          =  NULL;
+  right_bc         =  NULL;
+  Neqn             =  -1;
   max_number_of_time_steps = -1;
+  use_limiter      = false;
+  use_entropy_fix  = false;
 }
 // -------------------------------------------------------------------------- //
 
@@ -68,19 +70,21 @@ void Params1D::init(const char* outputdir_in)
   // list of the options with user-configurable defaults
   // (options not listed here are empty strings by default)
   std::vector<std::string> option_names_list;
-  option_names_list.push_back("numframes"           );
-  option_names_list.push_back("verbosity"           );
-  option_names_list.push_back("final_time"          );
-  option_names_list.push_back("cfl"                 );
-  option_names_list.push_back("Neqn"                );
-  option_names_list.push_back("order"               );
-  option_names_list.push_back("Nx"                  );
-  option_names_list.push_back("xlow"                );
-  option_names_list.push_back("xhigh"               );
-  option_names_list.push_back("left_bc"             );
-  option_names_list.push_back("right_bc"            );
-  option_names_list.push_back("Neqn"                );
-  option_names_list.push_back("max_number_of_time_steps");
+  option_names_list.push_back("numframes"                );
+  option_names_list.push_back("verbosity"                );
+  option_names_list.push_back("final_time"               );
+  option_names_list.push_back("cfl"                      );
+  option_names_list.push_back("Neqn"                     );
+  option_names_list.push_back("order"                    );
+  option_names_list.push_back("Nx"                       );
+  option_names_list.push_back("xlow"                     );
+  option_names_list.push_back("xhigh"                    );
+  option_names_list.push_back("left_bc"                  );
+  option_names_list.push_back("right_bc"                 );
+  option_names_list.push_back("Neqn"                     );
+  option_names_list.push_back("max_number_of_time_steps" );
+  option_names_list.push_back("use_limiter"              );
+  option_names_list.push_back("use_entropy_fix"          );
 
   // read-in strings
   const std::string s_numframes         = ini_sec["numframes"        ];
@@ -95,6 +99,8 @@ void Params1D::init(const char* outputdir_in)
   const std::string s_left_bc           = ini_sec["left_bc"          ];
   const std::string s_right_bc          = ini_sec["right_bc"         ];
   const std::string s_max_number_of_time_steps    = ini_sec["max_number_of_time_steps"   ];
+  const std::string s_use_limiter       = ini_sec["use_limiter"      ];
+  const std::string s_use_entropy_fix   = ini_sec["use_entropy_fix"  ];
 
   // convert to proper date types
   iniDoc.scanner("numframes",            s_numframes,            numframes            );
@@ -109,6 +115,12 @@ void Params1D::init(const char* outputdir_in)
   left_bc  = strdup(s_left_bc.c_str());
   right_bc = strdup(s_right_bc.c_str());
   iniDoc.scanner("max_number_of_time_steps",       s_max_number_of_time_steps,   max_number_of_time_steps       );
+  int int_use_limiter;
+  int int_use_entropy_fix;
+  iniDoc.scanner("use_limiter",          s_use_limiter,          int_use_limiter      );
+  iniDoc.scanner("use_entropy_fix",      s_use_entropy_fix,      int_use_entropy_fix  );
+  if (int_use_limiter==1)     { use_limiter     = true; };
+  if (int_use_entropy_fix==1) { use_entropy_fix = true; };
 
   // check parameters
   check_parameters();
@@ -229,7 +241,9 @@ void Params1D::report_parameters()
          "                             xhigh:  %f\n"
          "                                dx:  %f\n"
          "           Left Boundary Condition:  %s\n"
-         "          Right Boundary Condition:  %s\n\n",
+         "          Right Boundary Condition:  %s\n"
+         "                       use_limiter:  %s\n"
+         "                   use_entropy_fix:  %s\n\n",
          numframes,
          verbosity,
          final_time,
@@ -241,6 +255,8 @@ void Params1D::report_parameters()
          xhigh,
          dx,
          left_bc,
-         right_bc);
+         right_bc,
+         use_limiter ? "true" : "false",
+         use_entropy_fix ? "true" : "false");
 }
 // -------------------------------------------------------------------------- //
